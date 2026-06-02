@@ -15,6 +15,23 @@ export default function DeliveryForm({ clientsDirectory, onAddDelivery }) {
   const [payment, setPayment] = useState('izoua');
   const [showBadge, setShowBadge] = useState(false);
 
+  // Capitalize first letters helper
+  const capitalizeWords = (str) => {
+    return str.replace(/\b\w/g, char => char.toUpperCase());
+  };
+
+  // Force phone inputs to be numeric only
+  const handlePhoneChange = (e) => {
+    const value = e.target.value;
+    const numericValue = value.replace(/[^0-9]/g, '');
+    setPhone(numericValue);
+  };
+
+  // Capitalize name words when the user blurs out of the input
+  const handleNameBlur = () => {
+    setName(prev => capitalizeWords(prev));
+  };
+
   // Phone input effect for autocompletion
   useEffect(() => {
     const cleanedPhone = phone.trim();
@@ -37,12 +54,15 @@ export default function DeliveryForm({ clientsDirectory, onAddDelivery }) {
     e.preventDefault();
     if (!name.trim() || !phone.trim() || !amount) return;
 
+    // Final capitalization fallback
+    const formattedName = capitalizeWords(name.trim());
+
     onAddDelivery({
-      clientName: name.trim(),
+      clientName: formattedName,
       clientPhone: phone.trim(),
       deliveryZone: zone,
-      deliveryCost: parseInt(cost, 10) || 0,
-      foodAmount: parseInt(amount, 10) || 0,
+      deliveryCost: Math.max(0, parseInt(cost, 10) || 0),
+      foodAmount: Math.max(0, parseInt(amount, 10) || 0),
       foodPayment: payment,
       startTime: new Date().toISOString(),
       endTime: null,
@@ -75,7 +95,7 @@ export default function DeliveryForm({ clientsDirectory, onAddDelivery }) {
             </svg>
             Téléphone du Client
           </label>
-          <div className="input-wrapper">
+          <div className={`input-wrapper ${showBadge ? 'has-match-glow' : ''}`}>
             <input 
               type="tel" 
               id="client-phone" 
@@ -83,7 +103,7 @@ export default function DeliveryForm({ clientsDirectory, onAddDelivery }) {
               required 
               autoComplete="off"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={handlePhoneChange}
             />
             {showBadge && <span className="autocomplete-badge" id="phone-match-badge">Client connu</span>}
           </div>
@@ -104,6 +124,7 @@ export default function DeliveryForm({ clientsDirectory, onAddDelivery }) {
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
+            onBlur={handleNameBlur}
           />
         </div>
 
@@ -137,6 +158,7 @@ export default function DeliveryForm({ clientsDirectory, onAddDelivery }) {
               value={cost} 
               onChange={(e) => setCost(e.target.value)}
               required 
+              min="0"
             />
           </div>
         </div>
@@ -159,6 +181,7 @@ export default function DeliveryForm({ clientsDirectory, onAddDelivery }) {
               required
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
+              min="0"
             />
           </div>
 

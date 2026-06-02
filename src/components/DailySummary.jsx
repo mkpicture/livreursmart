@@ -49,12 +49,25 @@ export default function DailySummary({ deliveries, onResetDay }) {
           <h3>Plats & Nourriture</h3>
           <div className="summary-grid">
             <div className="summary-card izoua">
-              <div className="card-title">Chez Izoua</div>
-              <div className="card-value">{foodIzouaTotal.toLocaleString()} FCFA</div>
+              <div className="summary-card-text">
+                <div className="card-title">Chez Izoua</div>
+                <div className="card-value">{foodIzouaTotal.toLocaleString()} FCFA</div>
+              </div>
+              <svg className="summary-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
             </div>
             <div className="summary-card moi">
-              <div className="card-title">Chez Moi</div>
-              <div className="card-value">{foodMoiTotal.toLocaleString()} FCFA</div>
+              <div className="summary-card-text">
+                <div className="card-title">Chez Moi</div>
+                <div className="card-value">{foodMoiTotal.toLocaleString()} FCFA</div>
+              </div>
+              <svg className="summary-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2" ry="2" />
+                <line x1="12" y1="18" x2="12" y2="6" />
+                <line x1="6" y1="12" x2="18" y2="12" />
+              </svg>
             </div>
           </div>
         </div>
@@ -64,12 +77,25 @@ export default function DailySummary({ deliveries, onResetDay }) {
           <h3>Frais de Livraison</h3>
           <div className="summary-grid">
             <div className="summary-card izoua">
-              <div className="card-title">Chez Izoua</div>
-              <div className="card-value">{deliveryIzouaTotal.toLocaleString()} FCFA</div>
+              <div className="summary-card-text">
+                <div className="card-title">Chez Izoua</div>
+                <div className="card-value">{deliveryIzouaTotal.toLocaleString()} FCFA</div>
+              </div>
+              <svg className="summary-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
             </div>
             <div className="summary-card moi">
-              <div className="card-title">Chez Moi</div>
-              <div className="card-value">{deliveryMoiTotal.toLocaleString()} FCFA</div>
+              <div className="summary-card-text">
+                <div className="card-title">Chez Moi</div>
+                <div className="card-value">{deliveryMoiTotal.toLocaleString()} FCFA</div>
+              </div>
+              <svg className="summary-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2" ry="2" />
+                <line x1="12" y1="18" x2="12" y2="6" />
+                <line x1="6" y1="12" x2="18" y2="12" />
+              </svg>
             </div>
           </div>
         </div>

@@ -27,7 +27,7 @@ export default function PaymentModal({ isOpen, clientName, onClose, onConfirm })
         <div className="modal-options">
           <button 
             type="button" 
-            className={`modal-opt-btn ${selectedMethod === 'izoua' ? 'selected' : ''}`}
+            className={`modal-opt-btn opt-izoua ${selectedMethod === 'izoua' ? 'selected' : ''}`}
             onClick={() => setSelectedMethod('izoua')}
           >
             <span className="opt-title">Chez Izoua</span>
@@ -35,7 +35,7 @@ export default function PaymentModal({ isOpen, clientName, onClose, onConfirm })
           </button>
           <button 
             type="button" 
-            className={`modal-opt-btn ${selectedMethod === 'moi' ? 'selected' : ''}`}
+            className={`modal-opt-btn opt-moi ${selectedMethod === 'moi' ? 'selected' : ''}`}
             onClick={() => setSelectedMethod('moi')}
           >
             <span className="opt-title">Chez Moi</span>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 export default function DeliveryCard({ delivery, onCompleteClick }) {
   const [elapsedText, setElapsedText] = useState('0m 0s');
+  const [timerAlertClass, setTimerAlertClass] = useState('');
   const isCompleted = delivery.endTime !== null;
 
   useEffect(() => {
@@ -13,6 +14,15 @@ export default function DeliveryCard({ delivery, onCompleteClick }) {
       const diffMin = Math.floor(diffMs / 1000 / 60);
       const diffSec = Math.floor((diffMs / 1000) % 60);
       setElapsedText(`${diffMin}m ${diffSec}s`);
+
+      // Thresholds: Warning at 15m, Critical at 30m
+      if (diffMin >= 30) {
+        setTimerAlertClass('critical');
+      } else if (diffMin >= 15) {
+        setTimerAlertClass('warning');
+      } else {
+        setTimerAlertClass('');
+      }
     };
 
     updateTimer();
@@ -65,9 +75,9 @@ export default function DeliveryCard({ delivery, onCompleteClick }) {
             <span>Durée: {delivery.duration} min</span>
           </div>
         ) : (
-          <div className="live-timer-container active">
+          <div className={`live-timer-container active ${timerAlertClass}`}>
             <div className="timer-dot"></div>
-            <span>{elapsedText}</span>
+            <span className="live-timer-text">{elapsedText}</span>
           </div>
         )}
       </div>
