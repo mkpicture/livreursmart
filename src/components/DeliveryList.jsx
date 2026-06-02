@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import DeliveryCard from './DeliveryCard';
 
-export default function DeliveryList({ deliveries, onMarkDeliveredClick }) {
+export default function DeliveryList({ deliveries, onMarkDeliveredClick, alertThresholds }) {
   const [currentFilter, setCurrentFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -88,6 +88,7 @@ export default function DeliveryList({ deliveries, onMarkDeliveredClick }) {
                   key={`${item.startTime}-${originalIndex}`}
                   delivery={item}
                   onCompleteClick={() => onMarkDeliveredClick(originalIndex)}
+                  alertThresholds={alertThresholds}
                 />
               );
             })}

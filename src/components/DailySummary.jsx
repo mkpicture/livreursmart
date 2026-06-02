@@ -100,19 +100,81 @@ export default function DailySummary({ deliveries, onResetDay }) {
           </div>
         </div>
 
-        {/* Visual Progress bar of payment share */}
+        {/* Visual SVG Donut chart of payment share */}
         <div className="summary-visual">
-          <div className="visual-label">
-            <span>Répartition Izoua / Moi</span>
-            <span id="ratio-text">{izouaRatio}% Izoua / {moiRatio}% Moi</span>
+          <div className="visual-label" style={{ marginBottom: '0.25rem' }}>
+            <span>Répartition du Chiffre d'Affaires</span>
           </div>
-          <div className="ratio-bar-bg">
-            <div className="ratio-bar-fill" style={{ width: `${moiRatio}%` }}></div>
+          
+          <div className="donut-container">
+            <svg width="130" height="130" viewBox="0 0 120 120" className="donut-svg">
+              <defs>
+                <linearGradient id="donut-grad-izoua" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#fbbf24" />
+                  <stop offset="100%" stopColor="#f59e0b" />
+                </linearGradient>
+                <linearGradient id="donut-grad-moi" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#34d399" />
+                  <stop offset="100%" stopColor="#10b981" />
+                </linearGradient>
+              </defs>
+              
+              <circle cx="60" cy="60" r="50" className="donut-ring-bg" />
+              
+              {grandTotal > 0 ? (
+                <>
+                  {/* Moi Segment (Green) */}
+                  <circle 
+                    cx="60" 
+                    cy="60" 
+                    r="50" 
+                    className="donut-segment moi" 
+                    strokeDasharray={`${(moiPct / 100) * 314.16} 314.16`}
+                    strokeDashoffset={0}
+                  />
+                  {/* Izoua Segment (Orange) */}
+                  <circle 
+                    cx="60" 
+                    cy="60" 
+                    r="50" 
+                    className="donut-segment izoua" 
+                    strokeDasharray={`${(izouaPct / 100) * 314.16} 314.16`}
+                    strokeDashoffset={-((moiPct / 100) * 314.16)}
+                  />
+                </>
+              ) : (
+                <circle 
+                  cx="60" 
+                  cy="60" 
+                  r="50" 
+                  className="donut-segment" 
+                  stroke="rgba(255, 255, 255, 0.05)"
+                  strokeDasharray="314.16 314.16"
+                  strokeDashoffset={0}
+                />
+              )}
+            </svg>
+            
+            <div className="donut-center-text">
+              <span className="donut-center-val" style={{ fontSize: '0.9rem' }}>{grandTotal.toLocaleString()}</span>
+              <span className="donut-center-lbl" style={{ fontSize: '0.55rem' }}>Total FCFA</span>
+            </div>
+          </div>
+
+          <div className="visual-label" style={{ justifyContent: 'center', gap: '1rem', marginTop: '0.5rem' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.75rem', fontWeight: 600 }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--color-warning)' }}></span>
+              Izoua: {izouaPct}%
+            </span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.75rem', fontWeight: 600 }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--color-success)' }}></span>
+              Moi: {moiPct}%
+            </span>
           </div>
         </div>
 
         {/* Grand Totals */}
-        <div className="grand-total-box">
+        <div className="grand-total-box" style={{ marginTop: '0.5rem' }}>
           <div className="total-row">
             <span>Total Général Collecté :</span>
             <strong>{grandTotal.toLocaleString()} FCFA</strong>

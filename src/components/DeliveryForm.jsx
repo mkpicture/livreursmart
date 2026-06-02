@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-const zoneCosts = {
-  zone1: 1000,
-  zone2: 1500,
-  zone3: 2000
-};
-
-export default function DeliveryForm({ clientsDirectory, onAddDelivery }) {
+export default function DeliveryForm({ clientsDirectory, onAddDelivery, zoneRates }) {
   const [phone, setPhone] = useState('');
   const [name, setName] = useState('');
   const [zone, setZone] = useState('zone1');
-  const [cost, setCost] = useState(1000);
+  const [cost, setCost] = useState(zoneRates.zone1);
   const [amount, setAmount] = useState('');
   const [payment, setPayment] = useState('izoua');
   const [showBadge, setShowBadge] = useState(false);
@@ -43,11 +37,14 @@ export default function DeliveryForm({ clientsDirectory, onAddDelivery }) {
     }
   }, [phone, clientsDirectory]);
 
-  // Zone select effect to update default cost
+  // Sync cost when zoneRates or zone changes
+  useEffect(() => {
+    setCost(zoneRates[zone] || 0);
+  }, [zoneRates, zone]);
+
+  // Zone select effect
   const handleZoneChange = (e) => {
-    const selectedZone = e.target.value;
-    setZone(selectedZone);
-    setCost(zoneCosts[selectedZone] || 0);
+    setZone(e.target.value);
   };
 
   const handleSubmit = (e) => {
@@ -74,7 +71,7 @@ export default function DeliveryForm({ clientsDirectory, onAddDelivery }) {
     setPhone('');
     setName('');
     setZone('zone1');
-    setCost(1000);
+    setCost(zoneRates.zone1);
     setAmount('');
     setPayment('izoua');
     setShowBadge(false);
